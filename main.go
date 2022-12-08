@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net"
 )
 
@@ -22,13 +23,14 @@ func NewServer(listenAddr string) *Server {
 
 func (s *Server) Start() error {
 
-	ln, err := net.Listen("tpc", s.listenAddr)
+	ln, err := net.Listen("tcp", s.listenAddr)
 	if err != nil {
 		return err
 	}
 	defer ln.Close()
 	s.ln = ln
 
+	go s.acceptLoop()
 	<-s.quitch
 
 	return nil
@@ -42,6 +44,8 @@ func (s *Server) acceptLoop() {
 			fmt.Println("accept error", err)
 			continue
 		}
+
+		fmt.Println("new connection to the server", conn.RemoteAddr())
 
 		go s.readLoop(conn)
 	}
@@ -65,5 +69,5 @@ func (s *Server) readLoop(conn net.Conn) {
 
 func main() {
 	server := NewServer(":3000")
-	server.Start()
+	log.Fatal(server.Start())
 }
