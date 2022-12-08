@@ -1,6 +1,6 @@
 # TCP-Server
 
-## This is a simple description of how to build a custom TCP Server 
+## This is a simple description of how to build a custom TCP Server using Golang
 
 The Transmission Control Protocol (TCP) is a transport protocol 
 that is used on top of IP to ensure reliable transmission of packets. 
